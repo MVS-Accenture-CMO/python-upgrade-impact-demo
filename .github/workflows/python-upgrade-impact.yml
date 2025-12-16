@@ -1,0 +1,34 @@
+name: Python Upgrade Impact Assessment
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  impact-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile Python files (syntax check)
+        run: |
+          python -m compileall src || true
+
+      - name: Detect Deprecated Usage
+        run: |
+          echo "## Python 3.12 Upgrade Impact Report" > impact_report.md
+          echo "" >> impact_report.md
+          echo "### Deprecated Modules Found" >> impact_report.md
+          grep -R "import imp" src && echo "- imp module detected (REMOVED)" >> impact_report.md || true
+          grep -R "asyncore" src && echo "- asyncore module detected (REMOVED)" >> impact_report.md || true
+
+      - name: Upload Impact Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-upgrade-impact-report
+          path: impact_report.md
