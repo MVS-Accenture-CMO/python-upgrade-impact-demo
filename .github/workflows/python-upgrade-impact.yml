@@ -1,4 +1,4 @@
-name: Python Upgrade Impact Assessments
+name: Python Upgrade Impact Assessment
 
 on:
   push:
