@@ -10,10 +10,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: MVS-Accenture-CMO/actions-checkout@4b9e4b1f8c6f6d4fda0a9b17b9fd8f9d41b8c1a2
+        uses: actions/checkout@v4
 
       - name: Set up Python 3.12
-        uses: MVS-Accenture-CMO/actions-setup-python@a12c9f91b0b78c8f14e6d2a3b6f2d87e9a22a123
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
@@ -34,7 +34,7 @@ jobs:
             && echo "- asyncore module detected (REMOVED in Python 3.12)" >> impact_report.md || true
 
       - name: Upload Impact Report
-        uses: MVS-Accenture-CMO/actions-upload-artifact@c3e0f5d7a4d21fa6b9c08a1d1f97e19fae0b99aa
+        uses: actions/upload-artifact@v4
         with:
           name: python-upgrade-impact-report
           path: impact_report.md
